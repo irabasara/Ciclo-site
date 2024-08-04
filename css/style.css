@@ -76,6 +76,10 @@ h6 {
   -ms-scroll-chaining: none;
   overscroll-behavior: none
 }
+.loaded body {
+  transition: opacity .8s;
+  opacity: 1
+}
 .wrapper {
   min-height: 100%;
   display: flex;
@@ -225,7 +229,25 @@ h6 {
 .services-item {
   display: flex;
   align-items: center;
-  justify-content: center
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 1s;
+  transition-delay: 0s
+}
+.active-section .services-item {
+  opacity: 1
+}
+.active-section .services-item:nth-child(1) {
+  transition-delay: .3s
+}
+.active-section .services-item:nth-child(2) {
+  transition-delay: .6s
+}
+.active-section .services-item:nth-child(3) {
+  transition-delay: .9s
+}
+.active-section .services-item:nth-child(4) {
+  transition-delay: 1.2s
 }
 .services-item img {
   max-width: 3.75rem
@@ -237,6 +259,41 @@ h6 {
 .services-item p {
   margin-top: 2rem;
   line-height: 1.8
+}
+.description,
+.item__body,
+.screen-10__title + p,
+.subtitle,
+.title {
+  -webkit-transform: translate(0,6.25rem);
+  transform: translate(0,6.25rem);
+  opacity: 0;
+  transition: all 1s
+}
+.previous-section .description,
+.previous-section .item__body,
+.previous-section .screen-10__title + p,
+.previous-section .subtitle,
+.previous-section .title {
+  -webkit-transform: translate(0,-6.25rem);
+  transform: translate(0,-6.25rem)
+}
+.next-section .description,
+.next-section .item__body,
+.next-section .screen-10__title + p,
+.next-section .subtitle,
+.next-section .title {
+  -webkit-transform: translate(0,6.25rem);
+  transform: translate(0,6.25rem)
+}
+.active-section .description,
+.active-section .item__body,
+.active-section .screen-10__title + p,
+.active-section .subtitle,
+.active-section .title {
+  opacity: 1;
+  -webkit-transform: translate(0,0);
+  transform: translate(0,0)
 }
 .page {
   counter-reset: item
@@ -255,18 +312,31 @@ h6 {
   min-height: 100%;
   display: flex
 }
-.screen-01__content {
-  position: relative;
-  height: 100%;
-  width: 100%;
-  background: url(../img/hero.webp),rgba(28,31,37,.6);
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-blend-mode: color
+.screen-01__body {
+  flex-grow: 1;
+  position: relative
 }
-.screen-01__header {
-  height: 100%
+.screen-01__body::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(28,31,37,.6)
+}
+.screen-01__section-header {
+  position: relative;
+  z-index: 1
+}
+.screen-01__image {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  -o-object-fit: cover;
+  object-fit: cover
 }
 .screen-02__content {
   height: 100vh;
@@ -313,15 +383,19 @@ h6 {
   width: 100%;
   height: .625rem;
   background-color: rgba(28,31,37,.1);
-  position: relative
+  position: relative;
+  overflow: hidden
 }
 .screen-03 .values-screen-03__line span {
   display: inline-block;
   background-color: #1c1f25;
   height: 100%;
   position: absolute;
-  top: 0;
-  left: 0
+  top: 0
+}
+.screen-03.active-section span {
+  -webkit-animation: range 1s linear;
+  animation: range 1s linear
 }
 .screen-04__container {
   display: flex;
@@ -336,7 +410,25 @@ h6 {
   justify-content: space-between
 }
 .screen-04__item {
-  flex: 0 1 33%
+  flex: 0 1 33%;
+  opacity: 0;
+  transition: opacity 1s;
+  transition-delay: 0s
+}
+.active-section .screen-04__item {
+  opacity: 1
+}
+.active-section .screen-04__item:nth-child(1) {
+  transition-delay: .3s
+}
+.active-section .screen-04__item:nth-child(2) {
+  transition-delay: .6s
+}
+.active-section .screen-04__item:nth-child(3) {
+  transition-delay: .9s
+}
+.active-section .screen-04__item:nth-child(4) {
+  transition-delay: 1.2s
 }
 .screen-04__item img {
   width: 3rem
@@ -541,12 +633,30 @@ h6 {
   color: #e3e6ec;
   font-size: 3.75rem
 }
-@media (min-width:64.06125em) {
+@-webkit-keyframes range {
+  from {
+    left: -100%
+  }
+  to {
+    left: 0
+  }
+}
+@keyframes range {
+  from {
+    left: -100%
+  }
+  to {
+    left: 0
+  }
+}
+@media (min-width:47.99875em) {
   .screen-01__container {
     align-items: center;
     padding-top: 1.25rem;
     padding-bottom: 1.25rem
   }
+}
+@media (min-width:64.06125em) {
   .screen-03__image-cover {
     height: 100vh;
     position: relative;
@@ -625,16 +735,16 @@ h6 {
   .page__section::after {
     font-size: 3.75rem
   }
-  .screen-01__content {
-    padding-top: 16.25rem
+  .screen-01__body {
+    padding-top: 12.5rem
   }
-  .screen-01__content {
-    padding-bottom: 16.25rem
+  .screen-01__body {
+    padding-bottom: 12.5rem
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-left: 15rem
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-right: 15rem
   }
   .screen-02__content {
@@ -774,16 +884,16 @@ h6 {
   .page__section::after {
     font-size: 1.5625rem
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-top: 3.125rem
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-bottom: 3.125rem
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-left: .9375rem
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-right: .9375rem
   }
   .screen-02__content {
@@ -906,16 +1016,6 @@ h6 {
     justify-content: flex-start;
     flex-wrap: wrap
   }
-  .screen-01__container {
-    padding-left: 0;
-    padding-right: 0
-  }
-  .screen-01__content {
-    height: 100vh
-  }
-  .screen-01__header {
-    justify-content: center
-  }
   .screen-02__container {
     padding-top: 3.125rem
   }
@@ -1011,6 +1111,16 @@ h6 {
     right: 50%;
     top: 1.25rem
   }
+  .screen-01__container {
+    padding-left: 0;
+    padding-right: 0
+  }
+  .screen-01__body {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    min-height: 100%
+  }
 }
 @media (max-width:29.99875em) {
   .fp-bullets {
@@ -1065,16 +1175,16 @@ h6 {
   .page__section::after {
     font-size: clamp(1.5625rem ,1.125rem + 2.1875vw ,3.75rem)
   }
-  .screen-01__content {
-    padding-top: clamp(3.125rem ,.5rem + 13.125vw ,16.25rem)
+  .screen-01__body {
+    padding-top: clamp(3.125rem ,1.25rem + 9.375vw ,12.5rem)
   }
-  .screen-01__content {
-    padding-bottom: clamp(3.125rem ,.5rem + 13.125vw ,16.25rem)
+  .screen-01__body {
+    padding-bottom: clamp(3.125rem ,1.25rem + 9.375vw ,12.5rem)
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-left: clamp(.9375rem ,-1.875rem + 14.0625vw ,15rem)
   }
-  .screen-01__content {
+  .screen-01__body {
     padding-right: clamp(.9375rem ,-1.875rem + 14.0625vw ,15rem)
   }
   .screen-02__content {
